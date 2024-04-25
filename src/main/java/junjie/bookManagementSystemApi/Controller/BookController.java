@@ -3,6 +3,7 @@ package junjie.bookManagementSystemApi.Controller;
 import junjie.bookManagementSystemApi.Book;
 import junjie.bookManagementSystemApi.BookRepository;
 import junjie.bookManagementSystemApi.Exception.BookNotFoundException;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +19,8 @@ public class BookController {
 
     @GetMapping("/books")
     List<Book> allBooks() {
-        return repository.findAll();
+        Sort sort = Sort.by(Sort.Direction.ASC, "title");
+        return repository.findAll(sort);
     }
 
     @PostMapping("/books")
