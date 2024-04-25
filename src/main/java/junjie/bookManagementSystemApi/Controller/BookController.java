@@ -31,4 +31,16 @@ public class BookController {
         return repository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException(id));
     }
+
+    @PutMapping("/books/{id}")
+    Book updateBook(@RequestBody Book revisedBook, @PathVariable Long id) {
+        return repository.findById(id)
+                .map(book -> {
+                    book.setTitle(revisedBook.getTitle());
+                    book.setAuthor(revisedBook.getAuthor());
+                    book.setPublicationYear(revisedBook.getPublicationYear());
+                    book.setIsbn(revisedBook.getIsbn());
+                    return repository.save(book);
+                }).get();
+    }
 }

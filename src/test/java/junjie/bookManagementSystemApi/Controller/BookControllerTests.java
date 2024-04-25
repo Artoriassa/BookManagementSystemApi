@@ -58,4 +58,18 @@ public class BookControllerTests {
         assertThat(responseBook.getBody().getPublicationYear()).isEqualTo("2024");
         assertThat(responseBook.getBody().getIsbn()).isEqualTo("1234567890");
     }
+
+    @Test
+    void updateBookShouldReturnUpdatedBook() throws Exception {
+        repository.deleteAll();
+        var savedBook = repository.save(new Book("new book", "somebody", "2024", "1234567890"));
+        this.restTemplate.put("http://localhost:" + port + "/" + "books" + "/" + savedBook.getId(),
+                new Book("updated book", "somebody else", "2025", "1234567891"));
+        var updatedBook = repository.findById(savedBook.getId()).get();
+        assertThat(updatedBook.getId()).isNotNull();
+        assertThat(updatedBook.getTitle()).isEqualTo("updated book");
+        assertThat(updatedBook.getAuthor()).isEqualTo("somebody else");
+        assertThat(updatedBook.getPublicationYear()).isEqualTo("2025");
+        assertThat(updatedBook.getIsbn()).isEqualTo("1234567891");
+    }
 }
