@@ -1,5 +1,6 @@
-package junjie.bookManagementSystemApi;
+package junjie.bookManagementSystemApi.Repository;
 
+import junjie.bookManagementSystemApi.Entity.Book;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 

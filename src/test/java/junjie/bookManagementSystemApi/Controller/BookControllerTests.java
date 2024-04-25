@@ -1,7 +1,7 @@
 package junjie.bookManagementSystemApi.Controller;
 
-import junjie.bookManagementSystemApi.Book;
-import junjie.bookManagementSystemApi.BookRepository;
+import junjie.bookManagementSystemApi.Entity.Book;
+import junjie.bookManagementSystemApi.Repository.BookRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

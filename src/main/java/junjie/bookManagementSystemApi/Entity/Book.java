@@ -1,4 +1,4 @@
-package junjie.bookManagementSystemApi;
+package junjie.bookManagementSystemApi.Entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
