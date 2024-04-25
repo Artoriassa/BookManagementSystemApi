@@ -20,7 +20,7 @@ public class BookControllerTests {
     @Autowired
     private BookRepository repository;
     @Test
-    void addBookShouldReturnAddedBook() throws Exception {
+    void addBookShouldReturnAddedBook() {
         var responseBook = this.restTemplate.postForEntity(
                 "http://localhost:" + port + "/" + "books",
                         new Book("new book", "somebody", "2024", "1234567890"), Book.class);
@@ -33,7 +33,7 @@ public class BookControllerTests {
     }
 
     @Test
-    void allBooksShouldReturnAllBooks() throws Exception {
+    void allBooksShouldReturnAllBooks() {
         repository.deleteAll();
         repository.save(new Book("new book", "somebody", "2024", "1234567890"));
         var responseBooks = this.restTemplate.getForEntity("http://localhost:" + port + "/" + "books", Book[].class);
@@ -47,7 +47,7 @@ public class BookControllerTests {
     }
 
     @Test
-    void getBookShouldReturnBookWithSpecifiedId() throws Exception {
+    void getBookShouldReturnBookWithSpecifiedId() {
         repository.deleteAll();
         var savedBook = repository.save(new Book("new book", "somebody", "2024", "1234567890"));
         var responseBook = this.restTemplate.getForEntity("http://localhost:" + port + "/" + "books" + "/" + savedBook.getId(), Book.class);
@@ -60,7 +60,7 @@ public class BookControllerTests {
     }
 
     @Test
-    void updateBookShouldReturnUpdatedBook() throws Exception {
+    void updateBookShouldReturnUpdatedBook() {
         repository.deleteAll();
         var savedBook = repository.save(new Book("new book", "somebody", "2024", "1234567890"));
         this.restTemplate.put("http://localhost:" + port + "/" + "books" + "/" + savedBook.getId(),
@@ -71,5 +71,14 @@ public class BookControllerTests {
         assertThat(updatedBook.getAuthor()).isEqualTo("somebody else");
         assertThat(updatedBook.getPublicationYear()).isEqualTo("2025");
         assertThat(updatedBook.getIsbn()).isEqualTo("1234567891");
+    }
+
+    @Test
+    void deleteBookShouldReturnOk() {
+        repository.deleteAll();
+        var savedBook = repository.save(new Book("new book", "somebody", "2024", "1234567890"));
+        this.restTemplate.delete("http://localhost:" + port + "/" + "books" + "/" + savedBook.getId());
+        var isDeletedBook = repository.findById(savedBook.getId()).isEmpty();
+        assertThat(isDeletedBook).isEqualTo(true);
     }
 }
