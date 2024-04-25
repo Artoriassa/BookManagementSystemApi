@@ -27,6 +27,11 @@ public class BookController {
     Book addBook(@RequestBody Book newBook) {
         return repository.save(newBook);
     }
+    @GetMapping("/isbn/{isbn}")
+    List<Book> getBooksByIsbn(@PathVariable String isbn) {
+        Sort sort = Sort.by(Sort.Direction.ASC, "title");
+        return repository.findByIsbnContaining(isbn, sort);
+    }
 
     @GetMapping("/books/{id}")
     Book getBook(@PathVariable Long id) {
