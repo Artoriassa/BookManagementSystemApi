@@ -2,10 +2,8 @@ package junjie.bookManagementSystemApi.Controller;
 
 import junjie.bookManagementSystemApi.Book;
 import junjie.bookManagementSystemApi.BookRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import junjie.bookManagementSystemApi.Exception.BookNotFoundException;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,5 +24,11 @@ public class BookController {
     @PostMapping("/books")
     Book addBook(@RequestBody Book newBook) {
         return repository.save(newBook);
+    }
+
+    @GetMapping("/books/{id}")
+    Book getBook(@PathVariable Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new BookNotFoundException(id));
     }
 }
